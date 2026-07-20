@@ -1,0 +1,70 @@
+{
+  "name": "pidling",
+  "version": "0.1.0-alpha.0",
+  "description": "A terminal-native animated short film about a process learning how to end.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "author": "zsumz <shawn@zsumz.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zsumz/pidling.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zsumz/pidling/issues"
+  },
+  "homepage": "https://github.com/zsumz/pidling#readme",
+  "keywords": [
+    "terminal",
+    "terminal-animation",
+    "terminal-film",
+    "cli",
+    "typescript",
+    "storytelling",
+    "ascii-art",
+    "featurette"
+  ],
+  "sideEffects": false,
+  "bin": {
+    "pidling": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsdown",
+    "coverage": "npm run build --silent && vitest run --coverage",
+    "demo": "npm run build --silent && node ./dist/cli.js --transcript",
+    "lint": "npm run build --silent && eslint .",
+    "pack:dry-run": "npm --cache /tmp/pidling-npm-cache pack --dry-run",
+    "prepack": "npm run build",
+    "start": "npm run build --silent && node ./dist/cli.js",
+    "test": "npm run build --silent && vitest run",
+    "typecheck": "npm run build --silent && tsc -p tsconfig.json",
+    "validate": "npm run lint && npm run typecheck && npm test && npm run coverage && npm run pack:dry-run"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20.19"
+  },
+  "packageManager": "npm@10.9.8",
+  "private": true,
+  "dependencies": {
+    "featurette": "0.1.0-alpha.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.30",
+    "@vitest/coverage-v8": "^4.1.10",
+    "eslint": "^10.6.0",
+    "eslint-config-rubric": "^0.1.0-alpha.0",
+    "tsdown": "^0.12.9",
+    "typescript": "^5.8.3",
+    "vitest": "^4.1.9"
+  }
+}
