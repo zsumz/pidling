@@ -23,7 +23,7 @@ export function createRandom(seed: number): () => number {
     };
 }
 
-export function createRunPoints(seed: number, count = 7): RandomPoint[] {
+export function createRunPoints(seed: number, count = 8): RandomPoint[] {
     const random = createRandom(seed);
 
     return Array.from({ length: count }, (_, index) => ({

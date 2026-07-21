@@ -1,5 +1,4 @@
 import type { FeaturetteFilm, SceneContext } from 'featurette';
-import { drawSunrise, SUNRISE_LINE_COUNT } from '../stage/art.js';
 import {
     constellationPath,
     drawConstellation,
@@ -26,10 +25,13 @@ export function addGiftScene(film: FeaturetteFilm, state: StoryState): void {
 
         resize.setRedraw(redrawText);
         await context.clear();
+        await context.beat(300);
         await add({ row: 3, speed: 80, text: 'so.', voice: 'process' });
+        await context.beat(450);
         await add({ row: 5, speed: 62, text: 'not more.', voice: 'process' });
+        await context.beat(550);
         await add({ row: 7, speed: 52, text: 'one small true thing.', voice: 'process' });
-        await context.beat(800);
+        await context.beat(1100);
 
         const constellation = createConstellation(state);
         const redrawConstellation = async (): Promise<void> => {
@@ -39,51 +41,39 @@ export function addGiftScene(film: FeaturetteFilm, state: StoryState): void {
 
         resize.setRedraw(redrawConstellation);
         await context.clear();
+        await context.beat(350);
         await redrawConstellation();
         await traceConstellation(context, constellation);
         context.layer('tracer').clear();
         await context.cut();
-        await context.beat(700);
+        await context.beat(4000);
 
         lines.length = 0;
         resize.setRedraw(redrawText);
         await context.clear();
-        await add({ row: 1, speed: 48, text: 'a shape made from this run.', voice: 'process' });
-        await add({ row: 3, speed: 48, text: 'this one only happened here.', voice: 'process' });
+        await context.beat(300);
+        await add({ row: 1, speed: 48, text: 'a shape from this run.', voice: 'process' });
+        await context.beat(450);
+        await add({ row: 3, speed: 48, text: 'it only happened here.', voice: 'process' });
+        await context.beat(650);
 
         if (state.viewer) {
             await add({ row: 6, speed: 44, text: `the shell called you ${state.viewer.display}.`, voice: 'process' });
+            await context.beat(550);
             await add({ row: 8, speed: 44, text: 'so i gave this one your name.', voice: 'process' });
         }
 
         await add({ row: 11, speed: 52, text: 'i will not save it.', voice: 'process' });
-        await context.beat(1000);
-
-        let sunriseLines = 0;
-        const redrawSunrise = async (): Promise<void> => {
-            drawSunrise(context.layer('sunrise', { zIndex: 5 }), context.terminal, sunriseLines);
-            await context.cut();
-        };
-
-        resize.setRedraw(redrawSunrise);
-        await context.clear();
-        await context.effects.keyframes({
-            duration: 1800,
-            frames: SUNRISE_LINE_COUNT,
-            layer: 'sunrise',
-            draw: ({ frame, layer }) => {
-                sunriseLines = frame + 1;
-                if (layer) drawSunrise(layer, context.terminal, sunriseLines);
-            },
-        });
-        await context.beat(700);
+        await context.beat(3000);
 
         lines.length = 0;
         resize.setRedraw(redrawText);
         await context.clear();
+        await context.beat(600);
         await add({ row: 1, speed: 58, text: 'i cannot stay.', voice: 'process' });
-        await add({ row: 4, speed: 46, text: 'but i can leave the terminal', voice: 'process' });
-        await add({ row: 5, speed: 46, text: 'a little warmer than i found it.', voice: 'process' });
+        await context.beat(1200);
+        await add({ row: 4, speed: 48, text: 'i think that is all right.', voice: 'process' });
+        await context.beat(1900);
         await add({
             row: 8,
             speed: 0,
@@ -97,13 +87,7 @@ export function addGiftScene(film: FeaturetteFilm, state: StoryState): void {
             voice: 'process',
         });
         await add({ row: 12, speed: 0, text: 'returning control...', voice: 'system' });
-        await context.beat(800);
-        context.layer('prompt').text({ x: textLayout(context).left, y: 'bottom-1' }, '$', {
-            bold: true,
-            fg: 'life',
-        });
-        await context.cut();
-        await context.beat(650);
+        await context.beat(1800);
         resize.dispose();
     });
 }
@@ -121,13 +105,13 @@ async function traceConstellation(
     constellation: Constellation,
 ): Promise<void> {
     await context.effects.keyframes({
-        duration: 1400,
-        frames: 18,
+        duration: 2600,
+        frames: 28,
         layer: 'tracer',
         draw: ({ progress, layer }) => {
             const path = constellationPath(context.terminal, constellation);
             const point = pointOnPath(path, progress);
-            layer?.text(point.x, point.y, '*', { bold: true, fg: 'life' });
+            layer?.text(point.x, point.y, context.terminal.unicode ? '✦' : '*', { bold: true, fg: 'life' });
         },
     });
 }

@@ -1,46 +1,27 @@
-import type { Layer, TerminalInfo } from 'featurette';
-import { stageLayout } from './layout.js';
+import type { Layer } from 'featurette';
 
-const SPARK_FRAMES = [
-    ['.'],
-    ['+'],
-    [
-        '  |  ',
-        '\\ | /',
-        '--*--',
-        '/ | \\',
-        '  |  ',
-    ],
+const SPARK_HALO = [
+    '    ·    ',
+    '  ·   ·  ',
+    '·       ·',
+    '  ·   ·  ',
+    '    ·    ',
 ] as const;
 
-const SUNRISE = [
-    '       .              *',
-    '              .',
-    '          \\   |   /',
-    '           \\  |  /',
-    '        ----  *  ----',
-    '           /  |  \\',
-    '          /   |   \\',
-] as const;
-
-export function drawSpark(layer: Layer, frame: number): void {
-    const art = SPARK_FRAMES[Math.max(0, Math.min(frame, SPARK_FRAMES.length - 1))] ?? SPARK_FRAMES[0];
-    layer.clear().frame([...art], { x: 'center', y: 'middle' }, { fg: 'memory', bold: frame > 1 });
-}
-
-export function drawSunrise(
-    layer: Layer,
-    terminal: TerminalInfo,
-    revealed: number = SUNRISE.length,
-): void {
-    const layout = stageLayout(terminal, { height: 12, maxWidth: 46 });
-    const visible = SUNRISE.map((line, index) => index < revealed ? line : '');
-
+export function drawSpark(layer: Layer, frame: number, unicode = true): void {
     layer.clear();
-    layer.box(layout.left, layout.top, layout.width, layout.height, {
-        borderStyle: { fg: 'life', dim: true },
-    });
-    layer.frame(visible, { x: 'center', y: layout.top + 2 }, { fg: 'memory' });
-}
 
-export const SUNRISE_LINE_COUNT = SUNRISE.length;
+    if (frame <= 0) {
+        layer.text({ x: 'center', y: 'middle' }, unicode ? '·' : '.', { dim: true, fg: 'memory' });
+        return;
+    }
+
+    if (frame === 1) {
+        layer.text({ x: 'center', y: 'middle' }, unicode ? '✦' : '+', { fg: 'memory' });
+        return;
+    }
+
+    const halo = SPARK_HALO.map((line) => unicode ? line : line.replaceAll('·', '.'));
+    layer.frame(halo, { x: 'center', y: 'middle' }, { dim: true, fg: 'memory' });
+    layer.text({ x: 'center', y: 'middle' }, unicode ? '★' : '*', { bold: true, fg: 'memory' });
+}
