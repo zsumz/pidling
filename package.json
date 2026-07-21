@@ -58,7 +58,7 @@
   "packageManager": "npm@10.9.8",
   "private": true,
   "dependencies": {
-    "featurette": "0.1.0-alpha.3"
+    "featurette": "0.1.0-alpha.4"
   },
   "devDependencies": {
     "@types/node": "^22.15.30",
