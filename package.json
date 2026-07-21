@@ -3,7 +3,7 @@
   "version": "0.1.0-alpha.0",
   "description": "A terminal-native animated short film about a process learning how to end.",
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "author": "zsumz <shawn@zsumz.com>",
   "repository": {
     "type": "git",
@@ -48,6 +48,7 @@
   },
   "files": [
     "dist",
+    "LICENSE",
     "README.md",
     "pidling-logo.svg"
   ],
