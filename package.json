@@ -1,6 +1,6 @@
 {
   "name": "pidling",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0",
   "description": "A terminal-native animated short film about a process learning how to end.",
   "type": "module",
   "license": "MIT",
@@ -25,7 +25,7 @@
   ],
   "sideEffects": false,
   "bin": {
-    "pidling": "./dist/cli.js"
+    "pidling": "dist/cli.js"
   },
   "exports": {
     ".": {
@@ -39,12 +39,17 @@
     "coverage": "npm run build --silent && vitest run --coverage",
     "demo": "npm run build --silent && node ./dist/cli.js --transcript",
     "lint": "npm run build --silent && eslint .",
+    "package:smoke": "node scripts/package-smoke.mjs",
     "pack:dry-run": "npm --cache /tmp/pidling-npm-cache pack --dry-run",
     "prepack": "npm run build",
+    "prepublishOnly": "node scripts/publish-guard.mjs",
+    "publish:alpha": "npm publish --tag alpha --access public",
+    "publish:dry-run": "npm publish --dry-run --tag latest --access public --json --cache /tmp/pidling-npm-cache",
+    "publish:latest": "npm publish --tag latest --access public",
     "start": "npm run build --silent && node ./dist/cli.js",
     "test": "npm run build --silent && vitest run",
     "typecheck": "npm run build --silent && tsc -p tsconfig.json",
-    "validate": "npm run lint && npm run typecheck && npm test && npm run coverage && npm run pack:dry-run"
+    "validate": "npm run lint && npm run typecheck && npm test && npm run coverage && npm run package:smoke && npm run publish:dry-run"
   },
   "files": [
     "dist",
@@ -56,9 +61,11 @@
     "node": ">=20.19"
   },
   "packageManager": "npm@10.9.8",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
-    "featurette": "0.1.0-alpha.5"
+    "featurette": "0.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.30",

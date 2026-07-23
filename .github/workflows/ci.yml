@@ -37,4 +37,7 @@ jobs:
       - run: npm run coverage
         if: matrix.node-version == 22
 
-      - run: npm run pack:dry-run
+      - run: npm run package:smoke
+
+      - run: npm run publish:dry-run
+        if: matrix.node-version == 22
