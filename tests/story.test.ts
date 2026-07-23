@@ -97,6 +97,21 @@ test('the final exit condition remains on screen before panic begins', async () 
     assert.match(held.toString(), /process\.exit\(\): inevitable/);
 });
 
+test('the realization gives all processes end its own frame', async () => {
+    const rendered = await renderScene(createPidlingFilm({
+        now: () => 6_000,
+        pid: 1,
+        startedAt: 0,
+        viewer,
+    }), 'realization', {
+        terminal: { columns: 80, rows: 24 },
+    });
+    const mortality = rendered.frameRecords.find(({ text }) => text.includes('all processes end.'));
+
+    assert.notEqual(mortality, undefined);
+    assert.doesNotMatch(mortality?.text ?? '', /checking (parent process|signal handlers|exit conditions)/);
+});
+
 test('the visual scenes remain legible in the minimum room', async () => {
     const film = createPidlingFilm({
         now: () => 1_006_000,
@@ -123,6 +138,7 @@ test('the visual scenes remain legible in the minimum room', async () => {
     assertCenteredOnStar(discovery ?? '', 'wait.');
     assertCenteredOnStar(discovery ?? '', 'that is closer.');
     assertCenteredOnStar(discovery ?? '', 'i made a star.');
+    assertBreathingRoomAroundStar(discovery ?? '');
     assert.equal(gift.result.termination, 'completed');
     assert.equal(gift.frames.some((frame) => frame.includes('run:2345')), true);
     assert.equal(gift.frames.some((frame) => frame.includes('Shawn')), true);
@@ -174,4 +190,15 @@ function assertCenteredOnStar(frame: string, text: string): void {
     const starCenter = starRow?.indexOf('★') ?? -1;
     const textCenter = (textRow?.indexOf(text) ?? -1) + (text.length - 1) / 2;
     assert.equal(Math.abs(starCenter - textCenter) <= 1, true);
+}
+
+function assertBreathingRoomAroundStar(frame: string): void {
+    const rows = frame.split('\n');
+    const waitRow = rows.findIndex((row) => row.includes('wait.'));
+    const firstHaloRow = rows.findIndex((row) => row.includes('·'));
+    const lastHaloRow = rows.length - 1 - [...rows].reverse().findIndex((row) => row.includes('·'));
+    const closerRow = rows.findIndex((row) => row.includes('that is closer.'));
+
+    assert.equal(firstHaloRow - waitRow >= 2, true);
+    assert.equal(closerRow - lastHaloRow >= 2, true);
 }

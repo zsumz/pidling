@@ -31,8 +31,11 @@ export function addRealizationScene(film: FeaturetteFilm, state: StoryState): vo
             await context.beat(420);
         }
 
-        await add({ row: 11, speed: 66, text: 'all processes end.', voice: 'process' });
-        await context.beat(1500);
+        lines.length = 0;
+        await context.clear();
+        await context.beat(380);
+        await add({ align: 'center', row: 6, speed: 66, text: 'all processes end.', voice: 'process' });
+        await context.beat(2200);
 
         const roomCopy: BoardLine[] = [];
         let collapseFrame = -1;

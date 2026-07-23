@@ -13,7 +13,7 @@ export function addPlayScene(film: FeaturetteFilm, state: StoryState): void {
         let sparkFrame = 0;
         const redrawSpark = async (): Promise<void> => {
             drawBoard(context, 'play-copy', playLayout(context), discoveryLines(context, lines));
-            drawSpark(context.layer('spark', { zIndex: 10 }), sparkFrame, context.terminal.unicode);
+            drawSpark(context.layer('spark', { zIndex: 10 }), sparkFrame, context.terminal.unicode, 1);
             await context.cut();
         };
         const add = async (line: BoardLine): Promise<void> => {
@@ -37,7 +37,7 @@ export function addPlayScene(film: FeaturetteFilm, state: StoryState): void {
             layer: 'spark',
             draw: ({ progress, layer }) => {
                 sparkFrame = Math.min(2, Math.floor(progress * 3));
-                if (layer) drawSpark(layer, sparkFrame, context.terminal.unicode);
+                if (layer) drawSpark(layer, sparkFrame, context.terminal.unicode, 1);
             },
         });
 
@@ -89,7 +89,7 @@ function positionDiscoveryLine(
     line: BoardLine,
     index: number,
 ): BoardLine {
-    const rows = context.terminal.rows <= 16 ? [0, 2, 4, 11, 13] : [1, 3, 5, 13, 15];
+    const rows = context.terminal.rows <= 16 ? [0, 2, 4, 12, 14] : [1, 3, 5, 14, 16];
     return { ...line, row: rows[index] ?? line.row };
 }
 
