@@ -1,9 +1,5 @@
 import { userInfo } from 'node:os';
-
-export interface ViewerName {
-    display: string;
-    raw: string;
-}
+import type { ViewerName } from '../story/viewer.js';
 
 export interface ResolveViewerOptions {
     disabled?: boolean;
@@ -64,9 +60,9 @@ export function cleanViewerName(value: string | undefined): ViewerName | undefin
     };
 }
 
-function readSystemUsername(): string | undefined {
+export function readSystemUsername(read: typeof userInfo = userInfo): string | undefined {
     try {
-        return userInfo().username;
+        return read().username;
     } catch {
         return undefined;
     }

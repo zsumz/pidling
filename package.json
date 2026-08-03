@@ -35,21 +35,23 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
+    "architecture:check": "node scripts/architecture/check.mts",
     "build": "tsdown",
     "coverage": "npm run build --silent && vitest run --coverage",
     "demo": "npm run build --silent && node ./dist/cli.js --transcript",
     "lint": "npm run build --silent && eslint .",
-    "package:smoke": "node scripts/package-smoke.mjs",
+    "package:smoke": "npm run smoke:list && smoque run smoke/ --ci",
     "pack:dry-run": "npm --cache /tmp/pidling-npm-cache pack --dry-run",
     "prepack": "npm run build",
-    "prepublishOnly": "node scripts/publish-guard.mjs",
+    "prepublishOnly": "node scripts/publish-guard.mts",
     "publish:alpha": "npm publish --tag alpha --access public",
     "publish:dry-run": "npm publish --dry-run --tag latest --access public --json --cache /tmp/pidling-npm-cache",
     "publish:latest": "npm publish --tag latest --access public",
+    "smoke:list": "smoque list smoke/",
     "start": "npm run build --silent && node ./dist/cli.js",
     "test": "npm run build --silent && vitest run",
     "typecheck": "npm run build --silent && tsc -p tsconfig.json",
-    "validate": "npm run lint && npm run typecheck && npm test && npm run coverage && npm run package:smoke && npm run publish:dry-run"
+    "validate": "npm run lint && npm run architecture:check && npm run typecheck && npm test && npm run coverage && npm run package:smoke && npm run publish:dry-run"
   },
   "files": [
     "dist",
@@ -72,6 +74,7 @@
     "@vitest/coverage-v8": "^4.1.10",
     "eslint": "^10.6.0",
     "eslint-config-rubric": "^0.1.0-alpha.0",
+    "smoque": "^0.1.0",
     "tsdown": "^0.12.9",
     "typescript": "^5.8.3",
     "vitest": "^4.1.9"

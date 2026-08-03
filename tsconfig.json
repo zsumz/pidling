@@ -12,9 +12,13 @@
     "verbatimModuleSyntax": true
   },
   "include": [
+    "scripts/**/*.mts",
+    "smoke/**/*.mts",
     "src/**/*.ts",
+    "tests/**/*.mts",
     "tests/**/*.ts",
-    "tsdown.config.ts",
-    "vitest.config.ts"
+    "eslint.config.mts",
+    "tsdown.config.mts",
+    "vitest.config.mts"
   ]
 }

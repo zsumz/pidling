@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  A terminal-native short film about what it decides to do with the time.
+  A terminal-native short film about what it decides to do with the time it has.
 </p>
 
 <p align="center">

@@ -1,5 +1,6 @@
 import type { SceneContext } from 'featurette';
 import { stageLayout, stageRow } from '../stage/layout.js';
+import { textSpeed } from '../story/pacing.js';
 import type { StoryState } from '../story/state.js';
 import { formatElapsed } from '../story/time.js';
 
@@ -14,19 +15,19 @@ export async function playInterruptedEnding(context: SceneContext, state: StoryS
     await context.type('i understand.', {
         advance: 'none',
         at: at(1),
-        speed: 62,
+        speed: textSpeed.reflective,
         voice: 'process',
     });
     await context.type('let me finish this sentence.', {
         advance: 'none',
         at: at(3),
-        speed: 54,
+        speed: textSpeed.steady,
         voice: 'process',
     });
     await context.type(`thank you for giving me this much time${state.viewer ? `, ${state.viewer.display}` : ''}.`, {
         advance: 'none',
         at: at(6),
-        speed: 44,
+        speed: textSpeed.steady,
         voice: 'process',
     });
     await context.type(`time alive: ${formatElapsed(state.startedAt, state.now())}`, {

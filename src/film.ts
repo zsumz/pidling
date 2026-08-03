@@ -5,6 +5,7 @@ import { addPanicScene } from './scenes/panic.js';
 import { addPlayScene } from './scenes/play.js';
 import { addRealizationScene } from './scenes/realization.js';
 import { addWakeScene } from './scenes/wake.js';
+import { textSpeed } from './story/pacing.js';
 import { createStoryState, type StoryStateOptions } from './story/state.js';
 
 export type CreatePidlingOptions = StoryStateOptions;
@@ -25,9 +26,9 @@ export function createPidlingFilm(options: CreatePidlingOptions = {}): Featurett
         title: 'Pidling',
         tooSmall: 'transcript',
         voices: {
-            memory: { fg: 'memory', speed: 42 },
+            memory: { fg: 'memory', speed: textSpeed.steady },
             panic: { bold: true, fg: 'panic', speed: 24 },
-            process: { cursor: '_', fg: 'process', speed: 46 },
+            process: { cursor: '_', fg: 'process', speed: textSpeed.steady },
             system: { dim: true, fg: 'system', speed: 0 },
         },
     });

@@ -1,5 +1,5 @@
-import type { ViewerName } from '../runtime/viewer.js';
-import { hashText } from './random.js';
+import { hashText } from './run-seed.js';
+import type { ViewerName } from './viewer.js';
 
 export interface StoryState {
     now: () => number;

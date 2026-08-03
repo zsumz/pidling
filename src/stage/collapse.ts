@@ -1,6 +1,6 @@
 import type { Layer, TerminalInfo } from 'featurette';
 import type { StageLayout } from './layout.js';
-import { drawPlaceFrame } from './place.js';
+import { drawPlaceFrame } from './place/frame.js';
 
 export const COLLAPSE_FRAME_COUNT = 6;
 
@@ -10,9 +10,10 @@ export function drawCollapse(
     runSeed: number,
     frame: number,
     layout: StageLayout,
+    missingStars = 0,
 ): void {
     const progress = Math.min(1, (frame + 1) / COLLAPSE_FRAME_COUNT);
-    drawPlaceFrame(layer, terminal, runSeed, layout, progress);
+    drawPlaceFrame(layer, terminal, runSeed, layout, progress, missingStars);
 
     if (frame >= COLLAPSE_FRAME_COUNT - 1) {
         drawBrokenRoom(layer, layout, terminal.unicode);

@@ -23,12 +23,6 @@ export function formatElapsed(startedAt: number, now: number): string {
     return `${hours}:${minutes}:${seconds}`;
 }
 
-export function formatFinalElapsed(startedAt: number, now: number): string {
-    const elapsed = formatElapsed(startedAt, now);
-
-    return elapsed === '00:00:00' ? 'one complete run' : elapsed;
-}
-
 export function agePhrase(startedAt: number, now: number): string {
     const totalSeconds = elapsedSeconds(startedAt, now);
 
