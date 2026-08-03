@@ -1,6 +1,6 @@
 {
   "name": "pidling",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.0",
   "description": "A terminal-native animated short film about a process learning how to end.",
   "type": "module",
   "license": "MIT",
@@ -45,7 +45,9 @@
     "prepack": "npm run build",
     "prepublishOnly": "node scripts/publish-guard.mts",
     "publish:alpha": "npm publish --tag alpha --access public",
-    "publish:dry-run": "npm publish --dry-run --tag latest --access public --json --cache /tmp/pidling-npm-cache",
+    "publish:dry-run": "npm run publish:dry-run:alpha",
+    "publish:dry-run:alpha": "npm publish --dry-run --tag alpha --access public --json --cache /tmp/pidling-npm-cache",
+    "publish:dry-run:latest": "npm publish --dry-run --tag latest --access public --json --cache /tmp/pidling-npm-cache",
     "publish:latest": "npm publish --tag latest --access public",
     "smoke:list": "smoque list smoke/",
     "start": "npm run build --silent && node ./dist/cli.js",
